@@ -16,8 +16,11 @@ UCLASS()
 class TANKBATTLES_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-public:
+protected:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 
+private:
+	void AimTowardsCrosshair();
 	ATank* GetControlledTank() const;
 };

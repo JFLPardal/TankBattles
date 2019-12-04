@@ -25,8 +25,10 @@ private:
 	ATank* GetControlledTank() const;
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 	bool GetLookDirection(FVector2D CrosshairScreenLocation, FVector& LookDirection) const;
+	bool GetLookVectorHitLocation(const FVector& LookDirection, FVector& OutHitLocation) const;
 
 private:
 	UPROPERTY(EditAnywhere) float CrosshairXLocation = 0.5f;
 	UPROPERTY(EditAnywhere) float CrosshairYLocation = 0.3333f;
+	UPROPERTY(EditAnywhere) int32 LineTraceRange = 1000000; // 10km
 };

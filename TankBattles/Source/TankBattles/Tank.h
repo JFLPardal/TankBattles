@@ -7,6 +7,7 @@
 #include "Tank.generated.h"
 
 class UTankAimingComponent;
+class UTankBarrel;
 
 UCLASS()
 class TANKBATTLES_API ATank : public APawn
@@ -23,7 +24,7 @@ public:
 	void AimAt(FVector HitLocation) const;
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet) const;
+	void SetBarrelReference(UTankBarrel* BarrelToSet) const;
 
 protected:
 	// Called when the game starts or when spawned

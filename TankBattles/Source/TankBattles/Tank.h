@@ -16,7 +16,6 @@ class TANKBATTLES_API ATank : public APawn
 
 public:
 	ATank();
-	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

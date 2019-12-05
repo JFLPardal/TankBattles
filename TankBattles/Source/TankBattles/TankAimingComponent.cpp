@@ -25,13 +25,21 @@ void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed)
 		OutLaunchVelocity,
 		Barrel->GetSocketLocation(BarrelTipSocketName),
 		LocationToAim,
-		LaunchSpeed
+		LaunchSpeed,
+		false,
+		0,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 	if (bHasAimSolution)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 		UE_LOG(LogTemp, Warning, TEXT("aiming at %s"), *AimDirection.ToString());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("not aiming"));
 	}
 }
 
@@ -41,12 +49,12 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimDirectionAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimDirectionAsRotator - BarrelRotator;
-	Barrel->Elevate(5);
+	Barrel->Elevate(DeltaRotator.Pitch);
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
-	UE_LOG(LogTemp, Warning, TEXT("barrel set at %s"), *Barrel->GetComponentLocation().ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("barrel set at %s"), *Barrel->GetComponentLocation().ToString());
 }
 

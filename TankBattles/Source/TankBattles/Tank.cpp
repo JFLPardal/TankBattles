@@ -17,6 +17,11 @@ void ATank::AimAt(FVector HitLocation) const
 	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *ThisTankName, *HitLocation.ToString());*/
 }
 
+void ATank::SetBarrelReference(UStaticMeshComponent* BarrelToSet) const
+{
+	TankAimingComponent->SetBarrelReference(BarrelToSet);
+}
+
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {

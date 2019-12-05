@@ -15,7 +15,7 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 
-void UTankAimingComponent::AimAt(FVector LocationToAim) const
+void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed) const
 {
 	auto ThisTankName = GetOwner()->GetName();
 	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *ThisTankName, *LocationToAim.ToString());

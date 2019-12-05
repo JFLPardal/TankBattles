@@ -29,5 +29,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UTankAimingComponent* TankAimingComponent = nullptr;
-
+private:
+	UPROPERTY(EditAnywhere, Category = Firing) int32 LaunchSpeed = 4000;
 };

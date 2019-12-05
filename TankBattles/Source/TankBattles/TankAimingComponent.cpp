@@ -3,6 +3,7 @@
 #include "TankAimingComponent.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -14,13 +15,6 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-
-void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed) const
-{
-	auto ThisTankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *ThisTankName, *LocationToAim.ToString());
-}
-
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
@@ -29,6 +23,28 @@ void UTankAimingComponent::BeginPlay()
 	// ...
 	
 }
+
+void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed) const
+{
+	if (Barrel == nullptr) { return; }
+	FVector OutLaunchVelocity(0);
+
+	if (UGameplayStatics::SuggestProjectileVelocity
+		(
+			this, 
+			OutLaunchVelocity, 
+			Barrel->GetSocketLocation(BarrelTipSocketName), 
+			LocationToAim, 
+			LaunchSpeed,
+			false
+		)
+		)
+	{
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		UE_LOG(LogTemp, Warning, TEXT("aiming at %s"), *AimDirection.ToString());
+	}
+}
+
 
 
 // Called every frame

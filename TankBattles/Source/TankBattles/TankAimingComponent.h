@@ -25,4 +25,5 @@ protected:
 	virtual void BeginPlay() override;
 private:
 	UStaticMeshComponent* Barrel = nullptr;
+	const FName BarrelTipSocketName = "BarrelTip"; // socket name defined in the barrel .fbx 
 };

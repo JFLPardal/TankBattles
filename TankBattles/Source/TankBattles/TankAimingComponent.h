@@ -15,15 +15,13 @@ class TANKBATTLES_API UTankAimingComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
 	void SetBarrelReference(UStaticMeshComponent*  BarrelToSet);
-
-	void AimAt(FVector LocationToAim, int32 LaunchSpeed) const;
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+	// TODO add SetTurretReference
+	void AimAt(FVector LocationToAim, int32 LaunchSpeed);
 private:
 	UStaticMeshComponent* Barrel = nullptr;
 	const FName BarrelTipSocketName = "BarrelTip"; // socket name defined in the barrel .fbx 
+private:
+	void MoveBarrelTowards(FVector AimDirection);
 };

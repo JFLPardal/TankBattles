@@ -15,44 +15,33 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed) const
+void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed)
 {
 	if (Barrel == nullptr) { return; }
 	FVector OutLaunchVelocity(0);
-
-	if (UGameplayStatics::SuggestProjectileVelocity
-		(
-			this, 
-			OutLaunchVelocity, 
-			Barrel->GetSocketLocation(BarrelTipSocketName), 
-			LocationToAim, 
-			LaunchSpeed,
-			false
-		)
-		)
+	bool bHasAimSolution = UGameplayStatics::SuggestProjectileVelocity
+	(
+		this,
+		OutLaunchVelocity,
+		Barrel->GetSocketLocation(BarrelTipSocketName),
+		LocationToAim,
+		LaunchSpeed
+	);
+	if (bHasAimSolution)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		MoveBarrelTowards(AimDirection);
 		UE_LOG(LogTemp, Warning, TEXT("aiming at %s"), *AimDirection.ToString());
 	}
 }
 
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	// calculate difference between  current barrel rotation and AimDirection
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimDirectionAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimDirectionAsRotator - BarrelRotator;
+	// rotate the turret to the desired direction
 }
 
 void UTankAimingComponent::SetBarrelReference( UStaticMeshComponent* BarrelToSet)

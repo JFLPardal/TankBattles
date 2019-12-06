@@ -21,13 +21,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
-	void AimAt(FVector HitLocation) const;
-
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet) const;
 	
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet) const;
+
+
+	void AimAt(FVector HitLocation) const;
+	UFUNCTION(BlueprintCallable) void Fire() const;
 
 protected:
 	// Called when the game starts or when spawned

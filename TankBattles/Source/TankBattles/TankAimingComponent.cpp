@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -17,7 +18,11 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed)
 {
-	if (Barrel == nullptr) { return; }
+	if (Barrel == nullptr || Turret == nullptr) 
+	{
+		UE_LOG(LogTemp, Error, TEXT("TAnkAimingComponent: Barrel or Turret reference not set in BP"));
+		return; 
+	}
 	FVector OutLaunchVelocity(0);
 	bool bHasAimSolution = UGameplayStatics::SuggestProjectileVelocity
 	(
@@ -34,27 +39,34 @@ void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed)
 	if (bHasAimSolution)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		MoveBarrelTowards(AimDirection);
+		// move turret
+		MoveTurretAndBarrelTowards(AimDirection);
 		UE_LOG(LogTemp, Warning, TEXT("aiming at %s"), *AimDirection.ToString());
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("not aiming"));
+		//UE_LOG(LogTemp, Warning, TEXT("not aiming"));
 	}
 }
 
-void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+void UTankAimingComponent::MoveTurretAndBarrelTowards(FVector AimDirection)
 {
 	// calculate difference between  current barrel rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimDirectionAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimDirectionAsRotator - BarrelRotator;
+
 	Barrel->Elevate(DeltaRotator.Pitch);
+	Turret->Rotate(DeltaRotator.Yaw);
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
-	//UE_LOG(LogTemp, Warning, TEXT("barrel set at %s"), *Barrel->GetComponentLocation().ToString());
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
 }
 

@@ -17,7 +17,7 @@ public:
 	// -1 is max downward speed, +1 is max upwards speed
 	void Elevate(float RelativeSpeed);
 private:
-	UPROPERTY(EditAnywhere, Category = Setup) float MaxDegreesPerSecond = 5;
+	UPROPERTY(EditAnywhere, Category = Setup) float MaxDegreesPerSecond = 10;
 	UPROPERTY(EditAnywhere, Category = Setup) float MinElevationInDegrees = 0;
 	UPROPERTY(EditAnywhere, Category = Setup) float MaxElevationInDegrees = 40;
 };

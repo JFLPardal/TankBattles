@@ -4,6 +4,7 @@
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "Projectile.h"
+#include "TankMovementComponent.h"
 #include "Engine/StaticMeshSocket.h"
 
 // Sets default values

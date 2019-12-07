@@ -26,16 +26,25 @@ void ATank::AimAt(FVector HitLocation) const
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
-void ATank::Fire() const
+void ATank::Fire()
 {
-	if (Barrel == nullptr) { UE_LOG(LogTemp, Warning, TEXT("Tank.cpp: No Barrel reference")); return; }
-
-	auto ProjectileSpawned = GetWorld()->SpawnActor<AProjectile>(
-		ProjectileBlueprint,
-		Barrel->GetSocketLocation(BARREL_TIP_NAME),
-		Barrel->GetSocketRotation(BARREL_TIP_NAME)
-		);
-	ProjectileSpawned->LaunchProjectile(LaunchSpeed);
+	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
+	
+	if (bIsReloaded && Barrel != nullptr)
+	{
+		auto ProjectileSpawned = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBlueprint,
+			Barrel->GetSocketLocation(BARREL_TIP_NAME),
+			Barrel->GetSocketRotation(BARREL_TIP_NAME)
+			);
+		ProjectileSpawned->LaunchProjectile(LaunchSpeed);
+		LastFireTime = GetWorld()->GetTimeSeconds();
+	}
+	if(Barrel == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Tank.cpp: No Barrel reference")); 
+		return;
+	}
 }
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet) 

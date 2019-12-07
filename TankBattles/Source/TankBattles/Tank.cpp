@@ -30,11 +30,12 @@ void ATank::Fire() const
 {
 	if (Barrel == nullptr) { UE_LOG(LogTemp, Warning, TEXT("Tank.cpp: No Barrel reference")); return; }
 
-	GetWorld()->SpawnActor<AProjectile>(
+	auto ProjectileSpawned = GetWorld()->SpawnActor<AProjectile>(
 		ProjectileBlueprint,
 		Barrel->GetSocketLocation(BARREL_TIP_NAME),
 		Barrel->GetSocketRotation(BARREL_TIP_NAME)
 		);
+	ProjectileSpawned->LaunchProjectile(LaunchSpeed);
 }
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet) 
@@ -47,11 +48,6 @@ void ATank::SetTurretReference(UTankTurret* TurretToSet) const
 {
 	TankAimingComponent->SetTurretReference(TurretToSet);
 }
-/*
-void ATank::SetProjectileReference(AProjectile * ProjectileToSet)
-{
-	Projectile = ProjectileToSet;
-}*/
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

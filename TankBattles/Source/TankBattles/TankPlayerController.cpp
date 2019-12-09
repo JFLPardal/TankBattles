@@ -22,7 +22,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (GetControlledTank() == nullptr) { return; }
 
-	FVector HitLocation;
+	FVector HitLocation(-1);
 	if (GetSightRayHitLocation(HitLocation))
 	{
 		// tell controlled tank to aim at this point

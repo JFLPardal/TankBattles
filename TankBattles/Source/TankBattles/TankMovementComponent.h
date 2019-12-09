@@ -18,8 +18,10 @@ class TANKBATTLES_API UTankMovementComponent : public UNavMovementComponent
 public:
 	UFUNCTION(BlueprintCallable, Category = Setup) void Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
-	UFUNCTION(BlueprintCallable = Input) void IntendMoveForward(float Throw);
-
+	
+	UFUNCTION(BlueprintCallable, Category = Input) void IntendMoveForward(float Throw);
+	// negative Throw will make tank turn to the left
+	UFUNCTION(BlueprintCallable, Category = Input) void IntendTurnRight(float Throw);
 
 private:
 	UTankTrack* RightTrack = nullptr;

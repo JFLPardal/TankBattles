@@ -47,7 +47,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	if (GetLookDirection(CrosshairScreenLocation, LookDirection))
 	{
 		// line trace along that direction and test if something is hit (up to max range)
-		GetLookVectorHitLocation(LookDirection, OutHitLocation);
+		GetLookVectorHitLocation(LookDirection.GetSafeNormal(), OutHitLocation);
 	}
 	return true;
 }

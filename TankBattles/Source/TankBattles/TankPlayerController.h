@@ -30,5 +30,5 @@ private:
 private:
 	UPROPERTY(EditDefaultsOnly) float CrosshairXLocation = 0.5f;
 	UPROPERTY(EditDefaultsOnly) float CrosshairYLocation = 0.3333f;
-	UPROPERTY(EditDefaultsOnly) int32 LineTraceRange = 1000000; // 10km
+	UPROPERTY(EditDefaultsOnly) int32 LineTraceRange = 1000000; // 100km
 };

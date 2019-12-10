@@ -23,6 +23,10 @@ public:
 	// negative Throw will make tank turn to the left
 	UFUNCTION(BlueprintCallable, Category = Input) void IntendTurnRight(float Throw);
 
+	/// TODO check if this should be public
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+
+
 private:
 	UTankTrack* RightTrack = nullptr;
 	UTankTrack* LeftTrack = nullptr;

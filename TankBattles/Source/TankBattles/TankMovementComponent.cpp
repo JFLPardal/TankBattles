@@ -34,7 +34,12 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 	RightTrack->SetThrottle(-Throw);
 }
 
-void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s moving with velocity %s"), *GetOwner()->GetName(), *MoveVelocity.ToString());
+	// we are replacing the functionality from the parent class, so no Super:: call
+	auto TankForwardNormalized = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto MoveVelocityNormalized = MoveVelocity.GetSafeNormal();
+	float ForwardThrow = FVector::DotProduct(TankForwardNormalized, MoveVelocityNormalized);
+	
+	IntendMoveForward(ForwardThrow);
 }

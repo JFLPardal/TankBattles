@@ -16,16 +16,14 @@ class TANKBATTLES_API UTankMovementComponent : public UNavMovementComponent
 {
 	GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintCallable, Category = Setup) void Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
+	UFUNCTION(BlueprintCallable, Category = "Setup") void Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
-	
-	UFUNCTION(BlueprintCallable, Category = Input) void IntendMoveForward(float Throw);
+	UFUNCTION(BlueprintCallable, Category = "Input") void IntendMoveForward(float Throw);
 	// negative Throw will make tank turn to the left
-	UFUNCTION(BlueprintCallable, Category = Input) void IntendTurnRight(float Throw);
+	UFUNCTION(BlueprintCallable, Category = "Input") void IntendTurnRight(float Throw);
 
-	/// TODO check if this should be public
+private:
 	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
-
 
 private:
 	UTankTrack* RightTrack = nullptr;

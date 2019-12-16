@@ -35,8 +35,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UTankAimingComponent* TankAimingComponent = nullptr;
 protected:
+	UPROPERTY(BlueprintReadOnly) UTankAimingComponent* TankAimingComponent = nullptr;
 	UPROPERTY(BlueprintReadOnly) UTankMovementComponent* MovementComponent = nullptr;
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing) int32 LaunchSpeed = 4000;

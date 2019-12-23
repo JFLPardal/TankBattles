@@ -24,7 +24,7 @@ void ATank::BeginPlay()
 
 void ATank::AimAt(FVector HitLocation) const
 {
-	if (TankAimingComponent != nullptr)
+	if (ensure(TankAimingComponent != nullptr))
 	{
 		TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 	}
@@ -32,22 +32,20 @@ void ATank::AimAt(FVector HitLocation) const
 
 void ATank::Fire()
 {
-	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
+	if(ensure(Barrel != nullptr))
+	{
+		bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
 	
-	if (bIsReloaded && Barrel != nullptr)
-	{
-		auto ProjectileSpawned = GetWorld()->SpawnActor<AProjectile>(
-			ProjectileBlueprint,
-			Barrel->GetSocketLocation(BARREL_TIP_NAME),
-			Barrel->GetSocketRotation(BARREL_TIP_NAME)
-			);
-		ProjectileSpawned->LaunchProjectile(LaunchSpeed);
-		LastFireTime = GetWorld()->GetTimeSeconds();
-	}
-	if(Barrel == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Tank.cpp: No Barrel reference")); 
-		return;
+		if (bIsReloaded)
+		{
+			auto ProjectileSpawned = GetWorld()->SpawnActor<AProjectile>(
+				ProjectileBlueprint,
+				Barrel->GetSocketLocation(BARREL_TIP_NAME),
+				Barrel->GetSocketRotation(BARREL_TIP_NAME)
+				);
+			ProjectileSpawned->LaunchProjectile(LaunchSpeed);
+			LastFireTime = GetWorld()->GetTimeSeconds();
+		}
 	}
 }
 

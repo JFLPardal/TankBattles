@@ -23,34 +23,32 @@ void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * T
 
 void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed)
 {
-	if (Barrel == nullptr || Turret == nullptr) 
+	if ( ensure(Barrel != nullptr)  && ensure(Turret != nullptr))
 	{
-		UE_LOG(LogTemp, Error, TEXT("TAnkAimingComponent: Barrel or Turret reference not set in BP"));
-		return; 
-	}
-	FVector OutLaunchVelocity(0);
-	bool bHasAimSolution = UGameplayStatics::SuggestProjectileVelocity
-	(
-		this,
-		OutLaunchVelocity,
-		Barrel->GetSocketLocation(BarrelTipSocketName),
-		LocationToAim,
-		LaunchSpeed,
-		false,
-		0,
-		0,
-		ESuggestProjVelocityTraceOption::DoNotTrace
-	);
-	if (bHasAimSolution)
-	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		MoveTurretAndBarrelTowards(AimDirection);
+		FVector OutLaunchVelocity(0);
+		bool bHasAimSolution = UGameplayStatics::SuggestProjectileVelocity
+		(
+			this,
+			OutLaunchVelocity,
+			Barrel->GetSocketLocation(BarrelTipSocketName),
+			LocationToAim,
+			LaunchSpeed,
+			false,
+			0,
+			0,
+			ESuggestProjVelocityTraceOption::DoNotTrace
+		);
+		if (bHasAimSolution)
+		{
+			auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+			MoveTurretAndBarrelTowards(AimDirection);
+		}
 	}
 }
 
 void UTankAimingComponent::MoveTurretAndBarrelTowards(FVector AimDirection)
 {
-	if (Barrel == nullptr || Turret == nullptr) { return; }
+	if (!ensure( Barrel == nullptr || Turret == nullptr)) { return; }
 	// calculate difference between  current barrel rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimDirectionAsRotator = AimDirection.Rotation();

@@ -10,13 +10,9 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent != nullptr)
+	if (ensure(AimingComponent != nullptr))
 	{
 		FoundAimingComponent(AimingComponent);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("PlayerController: No AimingComponent found"));
 	}
 }
 
@@ -30,13 +26,14 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 // Point the tank's turret to where the player's crosshair is
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (GetControlledTank() == nullptr) { return; }
-
-	FVector HitLocation(-1);
-	if (GetSightRayHitLocation(HitLocation))
+	if (ensure(GetControlledTank() != nullptr))
 	{
-		// tell controlled tank to aim at this point
-		GetControlledTank()->AimAt(HitLocation);
+		FVector HitLocation(-1);
+		if (GetSightRayHitLocation(HitLocation))
+		{
+			// tell controlled tank to aim at this point
+			GetControlledTank()->AimAt(HitLocation);
+		}
 	}
 }
 

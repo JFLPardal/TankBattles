@@ -8,9 +8,10 @@
 #include "TankPlayerController.generated.h"
 
 class ATank;
+class UTankAimingComponent;
 
 /**
- * 
+ * Responsible for player's aiming
  */
 UCLASS()
 class TANKBATTLES_API ATankPlayerController : public APlayerController
@@ -22,6 +23,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FoundAimingComponent(UTankAimingComponent* AimingComponentReference);
 private:
 	void AimTowardsCrosshair();
 	

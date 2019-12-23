@@ -27,7 +27,7 @@ public:
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 	void AimAt(FVector LocationToAim, int32 LaunchSpeed);
 protected:
-	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Aiming;
+	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Locked;
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;

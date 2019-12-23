@@ -13,6 +13,19 @@ UTankAimingComponent::UTankAimingComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 	// ...
+	UE_LOG(LogTemp, Warning, TEXT("DO IT: Tank Aiming constructor"));
+}
+
+void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
+{
+	Barrel = BarrelToSet;
+	Turret = TurretToSet;
+}
+
+void UTankAimingComponent::BeginPlay()
+{
+
+	UE_LOG(LogTemp, Warning, TEXT("DO IT: Tank Aiming Begin Play"));
 }
 
 void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed)
@@ -44,6 +57,7 @@ void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed)
 
 void UTankAimingComponent::MoveTurretAndBarrelTowards(FVector AimDirection)
 {
+	if (Barrel == nullptr || Turret == nullptr) { return; }
 	// calculate difference between  current barrel rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimDirectionAsRotator = AimDirection.Rotation();
@@ -51,15 +65,5 @@ void UTankAimingComponent::MoveTurretAndBarrelTowards(FVector AimDirection)
 
 	Barrel->Elevate(DeltaRotator.Pitch);
 	Turret->Rotate(DeltaRotator.Yaw);
-}
-
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
-	Barrel = BarrelToSet;
-}
-
-void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
-{
-	Turret = TurretToSet;
 }
 

@@ -13,19 +13,12 @@ UTankAimingComponent::UTankAimingComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 	// ...
-	UE_LOG(LogTemp, Warning, TEXT("DO IT: Tank Aiming constructor"));
 }
 
 void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
-}
-
-void UTankAimingComponent::BeginPlay()
-{
-
-	UE_LOG(LogTemp, Warning, TEXT("DO IT: Tank Aiming Begin Play"));
 }
 
 void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed)

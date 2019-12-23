@@ -25,10 +25,9 @@ class TANKBATTLES_API UTankAimingComponent : public UActorComponent
 public:	
 	UFUNCTION(BlueprintCallable, Category = "Setup") 
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
-	void BeginPlay() override;
 	void AimAt(FVector LocationToAim, int32 LaunchSpeed);
 protected:
-	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Reloading;
+	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Aiming;
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;

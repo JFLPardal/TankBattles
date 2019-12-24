@@ -16,6 +16,7 @@ enum class EFiringState : uint8
 
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANKBATTLES_API UTankAimingComponent : public UActorComponent
@@ -25,18 +26,28 @@ class TANKBATTLES_API UTankAimingComponent : public UActorComponent
 public:	
 	UFUNCTION(BlueprintCallable, Category = "Setup") 
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
 	void AimAt(FVector LocationToAim);
+
+	UFUNCTION(BlueprintCallable) 
+	void Fire();
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Locked;
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
-	const FName BarrelTipSocketName = "BarrelTip"; // socket name defined in the barrel .fbx 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing") int32 LaunchSpeed = 4000;
+
+	const FName BARREL_TIP_SOCKET_NAME = "BarrelTip"; // socket name defined in the barrel .fbx 
+
+	double LastFireTime = 2; // equal to ReloadTimeInSeconds to make sure the player can fire as soon as the game starts
+	UPROPERTY(EditDefaultsOnly, Category = "Firing") float ReloadTimeInSeconds = 2;
+	UPROPERTY(EditAnywhere, Category = "Firing") TSubclassOf<AProjectile> ProjectileBlueprint = nullptr;
+
 private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-	UPROPERTY(EditDefaultsOnly, Category = "Firing") int32 LaunchSpeed = 4000;
 
 	void MoveTurretAndBarrelTowards(FVector AimDirection);
 };

@@ -10,7 +10,6 @@ class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
 class AProjectile;
-class UTankMovementComponent;
 
 UCLASS()
 class TANKBATTLES_API ATank : public APawn
@@ -28,7 +27,6 @@ protected:
 	virtual void BeginPlay() override;
 protected:
 	UPROPERTY(BlueprintReadOnly) UTankAimingComponent* TankAimingComponent = nullptr;
-	UPROPERTY(BlueprintReadOnly) UTankMovementComponent* MovementComponent = nullptr;
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing") int32 LaunchSpeed = 4000;
 	UPROPERTY(EditAnywhere, Category = "Firing") TSubclassOf<AProjectile> ProjectileBlueprint = nullptr;

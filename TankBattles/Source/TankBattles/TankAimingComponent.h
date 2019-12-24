@@ -25,7 +25,7 @@ class TANKBATTLES_API UTankAimingComponent : public UActorComponent
 public:	
 	UFUNCTION(BlueprintCallable, Category = "Setup") 
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
-	void AimAt(FVector LocationToAim, int32 LaunchSpeed);
+	void AimAt(FVector LocationToAim);
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Locked;
 private:
@@ -36,6 +36,7 @@ private:
 private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
+	UPROPERTY(EditDefaultsOnly, Category = "Firing") int32 LaunchSpeed = 4000;
 
 	void MoveTurretAndBarrelTowards(FVector AimDirection);
 };

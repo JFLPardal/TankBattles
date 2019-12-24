@@ -21,28 +21,27 @@ void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * T
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::AimAt(FVector LocationToAim, int32 LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector LocationToAim)
 {
-	if ( ensure(Barrel != nullptr)  && ensure(Turret != nullptr))
+	if (!ensure(Barrel)) { return; }
+	
+	FVector OutLaunchVelocity(0);
+	bool bHasAimSolution = UGameplayStatics::SuggestProjectileVelocity
+	(
+		this,
+		OutLaunchVelocity,
+		Barrel->GetSocketLocation(BarrelTipSocketName),
+		LocationToAim,
+		LaunchSpeed,
+		false,
+		0,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+	);
+	if (bHasAimSolution)
 	{
-		FVector OutLaunchVelocity(0);
-		bool bHasAimSolution = UGameplayStatics::SuggestProjectileVelocity
-		(
-			this,
-			OutLaunchVelocity,
-			Barrel->GetSocketLocation(BarrelTipSocketName),
-			LocationToAim,
-			LaunchSpeed,
-			false,
-			0,
-			0,
-			ESuggestProjVelocityTraceOption::DoNotTrace
-		);
-		if (bHasAimSolution)
-		{
-			auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-			MoveTurretAndBarrelTowards(AimDirection);
-		}
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		MoveTurretAndBarrelTowards(AimDirection);
 	}
 }
 

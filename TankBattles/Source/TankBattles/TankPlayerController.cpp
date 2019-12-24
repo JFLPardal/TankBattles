@@ -2,14 +2,13 @@
 
 
 #include "TankPlayerController.h"
-#include "Tank.h"
 #include "Engine/World.h"
 #include "TankAimingComponent.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (ensure(AimingComponent != nullptr))
 	{
 		FoundAimingComponent(AimingComponent);
@@ -26,7 +25,17 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 // Point the tank's turret to where the player's crosshair is
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (ensure(GetControlledTank() != nullptr))
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+	
+	FVector HitLocation(-1);
+	if (GetSightRayHitLocation(HitLocation))
+	{
+		// tell controlled tank to aim at this point
+		AimingComponent->AimAt(HitLocation);
+	}
+
+	/*if (ensure(GetControlledTank() != nullptr))
 	{
 		FVector HitLocation(-1);
 		if (GetSightRayHitLocation(HitLocation))
@@ -34,12 +43,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 			// tell controlled tank to aim at this point
 			GetControlledTank()->AimAt(HitLocation);
 		}
-	}
-}
-
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
+	}*/
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const

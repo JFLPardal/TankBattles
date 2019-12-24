@@ -24,6 +24,7 @@ class TANKBATTLES_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
+
 	UFUNCTION(BlueprintCallable, Category = "Setup") 
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
@@ -31,11 +32,14 @@ public:
 
 	UFUNCTION(BlueprintCallable) 
 	void Fire();
+
 protected:
-	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Locked;
+	UPROPERTY(BlueprintReadOnly, Category = "State") EFiringState FiringState = EFiringState::Reloading;
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	FVector AimDirection;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing") int32 LaunchSpeed = 4000;
 
@@ -46,8 +50,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Firing") TSubclassOf<AProjectile> ProjectileBlueprint = nullptr;
 
 private:
-	// Sets default values for this component's properties
+	virtual void BeginPlay() override;
 	UTankAimingComponent();
-
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	
 	void MoveTurretAndBarrelTowards(FVector AimDirection);
+	bool IsBarrelMoving();
 };

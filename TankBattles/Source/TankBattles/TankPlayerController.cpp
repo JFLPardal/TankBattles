@@ -25,6 +25,7 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 // Point the tank's turret to where the player's crosshair is
 void ATankPlayerController::AimTowardsCrosshair()
 {
+	if (!GetPawn()) { return; } // if not possessing the thank, f.e. if the player dies
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	
@@ -34,16 +35,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 		// tell controlled tank to aim at this point
 		AimingComponent->AimAt(HitLocation);
 	}
-
-	/*if (ensure(GetControlledTank() != nullptr))
-	{
-		FVector HitLocation(-1);
-		if (GetSightRayHitLocation(HitLocation))
-		{
-			// tell controlled tank to aim at this point
-			GetControlledTank()->AimAt(HitLocation);
-		}
-	}*/
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const

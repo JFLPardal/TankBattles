@@ -22,12 +22,16 @@ public:
 private:
 	UTankTrack();
 	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult &Hit);
+	
+	void ApplySidewaysForce();
+	void DriveTrack();
 private:
 	// max force per track in newtons
 	UPROPERTY(EditDefaultsOnly)
-	float TrackMaxDrivingForce = 40000000; // Assuming 40T tanks
+	float TrackMaxDrivingForce = 60000000; // Assuming 40T tanks
+
+	float CurrentThrottle = 0;
 };

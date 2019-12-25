@@ -64,9 +64,6 @@ void UTankAimingComponent::AimAt(FVector LocationToAim)
 		0.f,
 		0.f,
 		ESuggestProjVelocityTraceOption::DoNotTrace
-		/*, FCollisionResponseParams::DefaultResponseParam,
-		TArray<AActor*>(),
-		true*/
 	);
 
 	if (bHasAimSolution)
@@ -102,7 +99,15 @@ void UTankAimingComponent::MoveTurretAndBarrelTowards(FVector PointToAimTo)
 	auto DeltaRotator = AimDirectionAsRotator - BarrelRotator;
 
 	Barrel->Elevate(DeltaRotator.Pitch);
-	Turret->Rotate(DeltaRotator.Yaw);
+	if (FMath::Abs(DeltaRotator.Yaw) < 180)
+	{
+		Turret->Rotate(DeltaRotator.Yaw);
+	}
+	else
+	{
+		Turret->Rotate(-DeltaRotator.Yaw);
+	}
+	
 }
 
 bool UTankAimingComponent::IsBarrelMoving()

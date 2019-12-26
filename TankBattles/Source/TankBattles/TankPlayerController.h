@@ -19,6 +19,7 @@ class TANKBATTLES_API ATankPlayerController : public APlayerController
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
+	virtual void SetPawn(APawn* InPawn) override;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimingComponentReference);
@@ -29,6 +30,8 @@ private:
 	bool GetLookDirection(FVector2D CrosshairScreenLocation, FVector& LookDirection) const;
 	bool GetLookVectorHitLocation(const FVector& LookDirection, FVector& OutHitLocation) const;
 
+	UFUNCTION()
+	void OnPossessedTankDeath();
 private:
 	UPROPERTY(EditDefaultsOnly) float CrosshairXLocation = 0.5f;
 	UPROPERTY(EditDefaultsOnly) float CrosshairYLocation = 0.3333f;

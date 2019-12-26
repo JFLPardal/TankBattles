@@ -89,6 +89,11 @@ void UTankAimingComponent::Fire()
 	}
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 void UTankAimingComponent::MoveTurretAndBarrelTowards(FVector PointToAimTo)
 {
 	if (!ensure(Barrel) || !ensure(Turret)) { return; }

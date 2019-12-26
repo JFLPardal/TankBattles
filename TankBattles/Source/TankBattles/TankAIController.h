@@ -17,6 +17,5 @@ class TANKBATTLES_API ATankAIController : public AAIController
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
-private:
-	UPROPERTY(EditDefaultsOnly) float StoppingDistance = 3000; // distance to the player before stopping the chase
+	UPROPERTY(EditAnywhere) float StoppingDistance = 8000; // distance to the player before stopping the chase in cms
 };

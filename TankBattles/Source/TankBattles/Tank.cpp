@@ -2,6 +2,11 @@
 #include "Tank.h"
 #include "Engine/StaticMeshSocket.h"
 
+float ATank::GetCurrentHealthPercentage() const
+{
+	return (float) CurrentHealth / (float) StartingHealth;
+}
+
 // Sets default values
 ATank::ATank()
 {

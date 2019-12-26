@@ -4,6 +4,7 @@
 #include "Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 
 AProjectile::AProjectile()
@@ -26,6 +27,8 @@ AProjectile::AProjectile()
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
 	ProjectileMovement->bAutoActivate = false;
 
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
+	ExplosionForce->SetupAttachment(RootComponent);
 }
 
 void AProjectile::BeginPlay()
@@ -38,6 +41,7 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
+	ExplosionForce->FireImpulse();
 }
 
 void AProjectile::LaunchProjectile(float Speed)

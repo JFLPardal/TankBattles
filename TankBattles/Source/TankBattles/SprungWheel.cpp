@@ -28,7 +28,7 @@ void ASprungWheel::BeginPlay()
 	Super::BeginPlay();
 	if (GetAttachParentActor())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("parent actor not Null"));
+		UE_LOG(LogTemp, Warning, TEXT("parent actor %s"), *GetAttachParentActor()->GetName());
 	}
 	else
 	{

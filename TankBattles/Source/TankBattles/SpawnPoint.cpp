@@ -4,6 +4,7 @@
 #include "SpawnPoint.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 USpawnPoint::USpawnPoint()
@@ -21,9 +22,11 @@ void USpawnPoint::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto SpawnedActor = GetWorld()->SpawnActor<AActor>(ActorToSpawnBlueprint);
+	// using Deferred will delay the spawning until 'FinishSpawningActor', this gives us time to make any additional setup before actually spawning the actor
+	auto SpawnedActor = GetWorld()->SpawnActorDeferred<AActor>(ActorToSpawnBlueprint, GetComponentTransform());
 	if (!SpawnedActor) return;
-	SpawnedActor->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);	
+	SpawnedActor->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);	
+	UGameplayStatics::FinishSpawningActor(SpawnedActor, GetComponentTransform());
 }
 
 

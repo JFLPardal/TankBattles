@@ -8,6 +8,7 @@
 
 class UPrimitiveComponent;
 class AActor;
+class ASprungWheel;
 
 /**
  * TankTrack is used to move the tank and set the maximum drive force
@@ -21,17 +22,11 @@ public:
 	void SetThrottle(float Throttle);
 private:
 	UTankTrack();
-	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult &Hit);
-	
-	void ApplySidewaysForce();
-	void DriveTrack();
+	TArray<ASprungWheel*> GetWheels() const;
+	void DriveTrack(float CurrentThrottle);
 private:
 	// max force per track in newtons
 	UPROPERTY(EditDefaultsOnly)
-	float TrackMaxDrivingForce = 60000000; // Assuming 40T tanks
-
-	float CurrentThrottle = 0;
+	float TrackMaxDrivingForce = 60000000; // Assuming 60T tanks
 };

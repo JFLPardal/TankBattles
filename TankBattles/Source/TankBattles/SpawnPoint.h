@@ -14,18 +14,17 @@ class TANKBATTLES_API USpawnPoint : public USceneComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	USpawnPoint();
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	AActor* GetSpawnedActor() const { return SpawnedActor; }
+protected:
+	virtual void BeginPlay() override;
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AActor> ActorToSpawnBlueprint;
-		
+
+	UPROPERTY() // so that this is tracked by the garbage collector
+	AActor* SpawnedActor = nullptr;
 };

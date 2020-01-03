@@ -7,7 +7,6 @@
 #include "Components/StaticMeshComponent.h"
 #include "Engine/EngineTypes.h"
 
-// Sets default values
 ASprungWheel::ASprungWheel()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -26,18 +25,21 @@ ASprungWheel::ASprungWheel()
 	AxleWheelConstraint->SetupAttachment(Axle);
 }
 
-// Called when the game starts or when spawned
 void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
 	SetupConstraint();
 }
 
-// Called every frame
 void ASprungWheel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ASprungWheel::AddDrivingForce(float ForceMagnitude)
+{
+	Wheel->AddForce(Axle->GetForwardVector() * ForceMagnitude);
 }
 
 void ASprungWheel::SetupConstraint()

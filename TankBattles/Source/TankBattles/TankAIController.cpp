@@ -18,7 +18,6 @@ void ATankAIController::Tick(float DeltaSeconds)
 
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	auto ThisTank = GetPawn(); 
-
 	if (!(PlayerTank && ThisTank)) { return; }
 	
 	MoveToActor(PlayerTank, StoppingDistance);
